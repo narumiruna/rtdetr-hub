@@ -1,7 +1,25 @@
 import math
 
 import torch
+import torch.nn as nn
 import torch.nn.functional as F  # noqa
+
+
+def get_activation(act: str, inpace: bool = True) -> nn.Module:
+    """get activation"""
+    match act.lower():
+        case "silu":
+            return nn.SiLU(inplace=inpace)
+        case "relu":
+            return nn.ReLU(inplace=inpace)
+        case "leaky_relu":
+            return nn.LeakyReLU(inplace=inpace)
+        case "gelu":
+            return nn.GELU()
+        case None:
+            return nn.Identity()
+        case _:
+            raise ValueError(f"Unknown activation: {act}")
 
 
 def bias_init_with_prob(prior_prob: float = 0.01) -> float:

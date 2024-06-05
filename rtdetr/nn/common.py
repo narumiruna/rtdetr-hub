@@ -3,6 +3,8 @@
 import torch
 import torch.nn as nn
 
+from .utils import get_activation
+
 
 class ConvNormLayer(nn.Module):
     def __init__(
@@ -85,25 +87,3 @@ class FrozenBatchNorm2d(nn.Module):
 
     def extra_repr(self) -> str:
         return "{num_features}, eps={eps}".format(**self.__dict__)
-
-
-def get_activation(act: str | nn.Module, inpace: bool = True) -> nn.Module:
-    """get activation"""
-    act = act.lower()
-
-    if isinstance(act, nn.Module):
-        return act
-
-    match act:
-        case "silu":
-            return nn.SiLU(inplace=inpace)
-        case "relu":
-            return nn.ReLU(inplace=inpace)
-        case "leaky_relu":
-            return nn.LeakyReLU(inplace=inpace)
-        case "gelu":
-            return nn.GELU()
-        case None:
-            return nn.Identity()
-        case _:
-            raise ValueError(f"Unknown activation: {act}")

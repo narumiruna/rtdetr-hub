@@ -17,12 +17,6 @@ from .nn.presnet import PResNet
 
 
 class RTDETR(nn.Module):
-    __inject__ = [
-        "backbone",
-        "encoder",
-        "decoder",
-    ]
-
     def __init__(
         self,
         backbone: nn.Module,
