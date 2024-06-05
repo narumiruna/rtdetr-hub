@@ -1,1 +1,1 @@
-# rtdetr-hub
+# rtdetr-pytorch
