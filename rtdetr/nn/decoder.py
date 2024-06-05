@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F  # noqa
 import torch.nn.init as init
 
-from .common import get_activation
+from .conv import get_activation
 from .denoising import get_contrastive_denoising_training_group
 from .utils import bias_init_with_prob
 from .utils import deformable_attention_core_func

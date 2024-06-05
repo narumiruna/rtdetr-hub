@@ -7,9 +7,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F  # noqa
 
-from .common import ConvNormLayer
-from .common import FrozenBatchNorm2d
-from .common import get_activation
+from .batch_norm import FrozenBatchNorm2d
+from .conv import ConvNormLayer
+from .conv import get_activation
 
 ResNet_cfg = {
     18: [2, 2, 2, 2],
