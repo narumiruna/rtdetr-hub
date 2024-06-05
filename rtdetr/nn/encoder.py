@@ -47,6 +47,10 @@ class RepVggBlock(nn.Module):
         kernel = branch.conv.weight
         running_mean = branch.norm.running_mean
         running_var = branch.norm.running_var
+
+        if running_mean is None or running_var is None:
+            return 0, 0
+
         gamma = branch.norm.weight
         beta = branch.norm.bias
         eps = branch.norm.eps

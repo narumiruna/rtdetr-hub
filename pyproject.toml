@@ -50,3 +50,6 @@ force-single-line = true
 
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.mypy]
+disable_error_code = ["import-untyped"]

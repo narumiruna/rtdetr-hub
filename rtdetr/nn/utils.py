@@ -30,7 +30,7 @@ def bias_init_with_prob(prior_prob: float = 0.01) -> float:
 
 def deformable_attention_core_func(
     value: torch.Tensor,
-    value_spatial_shapes: list[int],
+    value_spatial_shapes: list[tuple[int, int]],
     sampling_locations: torch.Tensor,
     attention_weights: torch.Tensor,
 ) -> torch.Tensor:
