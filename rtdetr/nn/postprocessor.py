@@ -26,7 +26,7 @@ class RTDETRPostProcessor(nn.Module):
         self.deploy_mode = False
 
     def extra_repr(self) -> str:
-        return f"use_focal_loss={self.use_focal_loss}, num_classes={self.num_classes}, num_top_queries={self.num_top_queries}"
+        return f"use_focal_loss={self.use_focal_loss}, num_classes={self.num_classes}, num_top_queries={self.num_top_queries}"  # noqa
 
     # def forward(self, outputs, orig_target_sizes):
     def forward(self, outputs, orig_target_sizes):

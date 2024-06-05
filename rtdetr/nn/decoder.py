@@ -295,8 +295,8 @@ class RTDETRTransformer(nn.Module):
         hidden_dim=256,
         num_queries=300,
         position_embed_type="sine",
-        feat_channels=[512, 1024, 2048],
-        feat_strides=[8, 16, 32],
+        feat_channels=None,
+        feat_strides=None,
         num_levels=3,
         num_decoder_points=4,
         nhead=8,
@@ -314,6 +314,9 @@ class RTDETRTransformer(nn.Module):
         aux_loss=True,
     ):
         super().__init__()
+        feat_channels = feat_channels or [512, 1024, 2048]
+        feat_strides = feat_strides or [8, 16, 32]
+
         assert position_embed_type in [
             "sine",
             "learned",
@@ -348,7 +351,7 @@ class RTDETRTransformer(nn.Module):
         self.box_noise_scale = box_noise_scale
         # denoising part
         if num_denoising > 0:
-            # self.denoising_class_embed = nn.Embedding(num_classes, hidden_dim, padding_idx=num_classes-1) # TODO for load paddle weights
+            # self.denoising_class_embed = nn.Embedding(num_classes, hidden_dim, padding_idx=num_classes-1)
             self.denoising_class_embed = nn.Embedding(num_classes + 1, hidden_dim, padding_idx=num_classes)
 
         # decoder embedding
@@ -449,7 +452,7 @@ class RTDETRTransformer(nn.Module):
         level_start_index = [
             0,
         ]
-        for i, feat in enumerate(proj_feats):
+        for _, feat in enumerate(proj_feats):
             _, _, h, w = feat.shape
             # [b, c, h, w] -> [b, h*w, c]
             feat_flatten.append(feat.flatten(2).permute(0, 2, 1))
@@ -474,8 +477,8 @@ class RTDETRTransformer(nn.Module):
                 torch.arange(end=h, dtype=dtype), torch.arange(end=w, dtype=dtype), indexing="ij"
             )
             grid_xy = torch.stack([grid_x, grid_y], -1)
-            valid_WH = torch.tensor([w, h]).to(dtype)
-            grid_xy = (grid_xy.unsqueeze(0) + 0.5) / valid_WH
+            valid_wh = torch.tensor([w, h]).to(dtype)
+            grid_xy = (grid_xy.unsqueeze(0) + 0.5) / valid_wh
             wh = torch.ones_like(grid_xy) * grid_size * (2.0**lvl)
             anchors.append(torch.concat([grid_xy, wh], -1).reshape(-1, h * w, 4))
 
