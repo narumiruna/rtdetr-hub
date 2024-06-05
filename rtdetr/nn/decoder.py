@@ -15,8 +15,6 @@ from .utils import bias_init_with_prob
 from .utils import deformable_attention_core_func
 from .utils import inverse_sigmoid
 
-__all__ = ["RTDETRTransformer"]
-
 
 class MLP(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, num_layers, act="relu"):

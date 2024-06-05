@@ -4,7 +4,8 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F  # noqa
 
-from .decoder import TransformerDecoder
+from .nn.decoder import TransformerDecoder
+from .nn.encoder import HybridEncoder
 
 
 class RTDETR(nn.Module):
@@ -14,7 +15,13 @@ class RTDETR(nn.Module):
         "decoder",
     ]
 
-    def __init__(self, backbone: nn.Module, encoder, decoder: TransformerDecoder, multi_scale=None):
+    def __init__(
+        self,
+        backbone: nn.Module,
+        encoder: HybridEncoder,
+        decoder: TransformerDecoder,
+        multi_scale: list[int] | None = None,
+    ):
         super().__init__()
         self.backbone = backbone
         self.decoder = decoder
